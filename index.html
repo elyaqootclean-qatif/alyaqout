@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>الياقوت كلين - شركة التنظيف الأولى بالقطيف</title>
+    
+    <meta name="google-site-verification" content="ضع_كود_جوجل_هنا" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ================= إعدادات عامة ومنع الاهتزاز والشريط الأزرق ================= */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root { --primary: #0a3d62; --secondary: #3c6382; --accent: #f6b93b; --bg: #f8f9fa; }
+        html, body { overflow-x: hidden; max-width: 100vw; font-family: 'Cairo', sans-serif; background: var(--bg); scroll-behavior: smooth; color: #333; position: relative; }
+        
+        /* شريط الخصومات المتحرك */
+        .marquee { background: #e55039; color: #fff; padding: 12px; font-weight: 900; overflow: hidden; white-space: nowrap; width: 100%; display: flex; }
+        .marquee span { display: inline-block; padding-left: 100%; animation: scroll 25s linear infinite; font-size: 1.1rem; }
+        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* الهيدر والقائمة */
+        header { background: #fff; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.08); width: 100%; }
+        .logo { font-size: 1.8rem; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .menu-btn { font-size: 2rem; color: var(--primary); cursor: pointer; }
+        
+        /* القائمة الجانبية (تم التعديل لتفتح من اليمين لمنع ظهور الشريط الأزرق) */
+        .side-nav { position: fixed; top: 0; right: -320px; width: 280px; height: 100vh; background: var(--primary); color: white; padding: 60px 20px; transition: right 0.4s ease; z-index: 1001; display: flex; flex-direction: column; gap: 15px; box-shadow: -5px 0 15px rgba(0,0,0,0.3); }
+        .side-nav.active { right: 0; }
+        .close-btn { position: absolute; top: 20px; left: 20px; font-size: 2rem; cursor: pointer; color: var(--accent); }
+        .side-nav a { color: white; text-decoration: none; font-size: 1.2rem; font-weight: bold; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .side-nav a:hover { color: var(--accent); padding-right: 15px; }
+
+        /* البطل (Hero) */
+        .hero { background: linear-gradient(rgba(10, 61, 98, 0.85), rgba(10, 61, 98, 0.85)), url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80') center/cover; padding: 100px 20px; text-align: center; color: white; width: 100%; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; color: var(--accent); }
+        .btn-call { background: var(--accent); color: var(--primary); padding: 15px 40px; border-radius: 30px; font-size: 1.3rem; font-weight: bold; text-decoration: none; display: inline-block; transition: 0.3s; margin-top: 20px; }
+        .btn-call:hover { transform: scale(1.05); background: #fff; }
+
+        /* الخدمات (10 خدمات مع صور) */
+        .section { padding: 80px 5%; max-width: 1300px; margin: 0 auto; width: 100%; }
+        .sec-title { text-align: center; font-size: 2.8rem; color: var(--primary); margin-bottom: 50px; font-weight: 900; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .srv-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: 0.4s; border: 1px solid #eee; }
+        .srv-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        .srv-img { width: 100%; height: 200px; object-fit: cover; }
+        .srv-content { padding: 25px; text-align: center; }
+        .srv-content h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.4rem; }
+        .srv-content p { color: #666; font-size: 0.95rem; line-height: 1.6; }
+
+        /* الذكاء الاصطناعي (المحدود) */
+        .ai-wrapper { max-width: 800px; margin: 0 auto; background: #fff; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); overflow: hidden; border: 3px solid var(--primary); }
+        .ai-header { background: var(--primary); color: #fff; padding: 20px; display: flex; align-items: center; gap: 15px; font-size: 1.2rem; font-weight: bold; }
+        .chat-area { height: 450px; overflow-y: auto; padding: 25px; background: #f4f6f8; display: flex; flex-direction: column; gap: 15px; }
+        .msg { max-width: 80%; padding: 15px 20px; border-radius: 15px; font-size: 1.1rem; line-height: 1.5; }
+        .msg.bot { background: #fff; align-self: flex-start; border-bottom-right-radius: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #ddd; }
+        .msg.user { background: var(--secondary); color: #fff; align-self: flex-end; border-bottom-left-radius: 0; }
+        .btn-chat-link { display: inline-block; background: #25d366; color: white; padding: 10px 20px; border-radius: 10px; text-decoration: none; margin-top: 10px; font-size: 0.9rem; font-weight: bold; }
+        .input-bar { display: flex; padding: 20px; background: #fff; border-top: 1px solid #eee; }
+        .input-bar input { flex: 1; padding: 15px 20px; border: 2px solid #eee; border-radius: 30px; outline: none; font-size: 1rem; transition: 0.3s; }
+        .input-bar input:focus { border-color: var(--secondary); }
+        .input-bar button { background: var(--accent); color: var(--primary); border: none; width: 55px; height: 55px; border-radius: 50%; margin-right: 15px; font-size: 1.5rem; cursor: pointer; transition: 0.3s; }
+        .input-bar button:hover { transform: scale(1.1); }
+
+        /* التسجيل والتقييم */
+        .auth-container { max-width: 500px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; }
+        .tab-btns { display: flex; margin-bottom: 20px; border-bottom: 2px solid #eee; }
+        .tab-btn { flex: 1; padding: 10px; background: none; border: none; font-weight: bold; cursor: pointer; color: #888; font-size: 1.1rem; }
+        .tab-btn.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
+        .auth-form { display: none; }
+        .auth-form.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+        .auth-form input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; }
+        .btn-main { background: var(--primary); color: #fff; width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: 0.3s; }
+        .btn-social { width: 100%; padding: 15px; border-radius: 10px; border: none; color: #fff; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin-bottom: 15px; }
+
+        /* عجلة الحظ */
+        .wheel-icon-container { display: flex; flex-direction: column; align-items: center; margin-top: 30px; }
+        .wheel-circle { width: 250px; height: 250px; border-radius: 50%; border: 8px solid var(--primary); background: conic-gradient(#3498db 0 60deg, #e67e22 60deg 120deg, #2ecc71 120deg 180deg, #9b59b6 180deg 240deg, #f1c40f 240deg 300deg, #e74c3c 300deg 360deg); position: relative; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .wheel-pointer { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 30px solid var(--accent); z-index: 10; }
+        
+        .prize-alert { display: none; background: #e8f4fd; padding: 20px; border-radius: 10px; border: 2px dashed var(--primary); margin-top: 25px; font-size: 1.3rem; font-weight: bold; color: var(--primary); }
+
+        /* المقال الطويل */
+        .long-article { background: #fff; padding: 50px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); line-height: 2.2; font-size: 1.15rem; color: #444; text-align: justify; margin-top: 50px; }
+        .long-article h2 { color: var(--primary); font-size: 2.5rem; margin-bottom: 30px; text-align: center; }
+        .long-article h3 { color: var(--secondary); font-size: 1.8rem; margin-top: 40px; margin-bottom: 15px; }
+
+        /* الواتساب */
+        .wa-float { position: fixed; bottom: 30px; left: 30px; background: #25d366; color: #fff; width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; box-shadow: 0 10px 25px rgba(37,211,102,0.4); z-index: 1000; text-decoration: none; transition: 0.3s; }
+        .wa-float:hover { transform: scale(1.1); }
+    </style>
+</head>
+<body>
+
+    <div class="marquee">
+        <span>🔥 أضخم عروض القطيف! خصومات تصل إلى 50% على تنظيف الفلل والشقق. سجل دخولك ولف عجلة الحظ الآن! 🔥</span>
+    </div>
+
+    <header>
+        <div class="logo"><i class="fas fa-gem" style="color:var(--accent);"></i> الياقوت كلين</div>
+        <i class="fas fa-bars menu-btn" onclick="document.getElementById('nav').classList.add('active')"></i>
+    </header>
+
+    <div class="side-nav" id="nav">
+        <i class="fas fa-times close-btn" onclick="document.getElementById('nav').classList.remove('active')"></i>
+        <h2 style="color:var(--accent); margin-bottom: 20px; text-align:center;">القائمة</h2>
+        <a href="#services" onclick="closeNav()"><i class="fas fa-broom"></i> خدمات التنظيف</a>
+        <a href="#ai" onclick="closeNav()"><i class="fas fa-robot"></i> المساعد الذكي</a>
+        <a href="#wheelSection" onclick="closeNav()"><i class="fas fa-gift"></i> التقييم والخصومات</a>
+        <a href="#articleSection" onclick="closeNav()"><i class="fas fa-book-open"></i> الدليل الشامل</a>
+    </div>
+
+    <div class="hero">
+        <h1>نظافة تليق بأسلوب حياتك</h1>
+        <p style="font-size: 1.4rem; max-width: 700px; margin: 0 auto;">خدمات تنظيف احترافية في القطيف باستخدام أحدث التقنيات الألمانية.</p>
+        <a href="tel:0573359617" class="btn-call" onclick="trackClick('Call Button')"><i class="fas fa-phone-alt"></i> اتصل الآن: 0573359617</a>
+    </div>
+
+    <div class="section" id="services">
+        <h2 class="sec-title">خدمات الياقوت الشاملة</h2>
+        <div class="services-grid">
+            <div class="srv-card">
+                <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600" class="srv-img" alt="تنظيف منازل وشقق">
+                <div class="srv-content">
+                    <h3>تنظيف منازل وشقق</h3>
+                    <p>نظافة عميقة للأرضيات والجدران وتعقيم كامل للمطابخ والحمامات.</p>
+                </div>
+            </div>
+            <div class="srv-card">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600" class="srv-img" alt="تنظيف فلل وقصور">
+                <div class="srv-content">
+                    <h3>تنظيف فلل وقصور</h3>
+                    <p>فريق مجهز للمساحات الكبيرة، جلي رخام وتلميع واجهات زجاجية.</p>
+                </div>
+            </div>
+            <div class="srv-card">
+                <img src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=600" class="srv-img" alt="غسيل كنب ومجالس">
+                <div class="srv-content">
+                    <h3>غسيل كنب ومجالس</h3>
+                    <p>إزالة أصعب البقع بتقنية البخار الحار مع التعطير المستدام.</p>
+                </div>
+            </div>
+            <div class="srv-card">
+                <img src="https://plus.unsplash.com/premium_photo-1661906956272-38e0787e914e?w=600" class="srv-img" alt="غسيل مكيفات">
+                <div class="srv-content">
+                    <h3>غسيل مكيفات</h3>
+                    <p>تنظيف فلاتر ومجاري المكيفات لضمان هواء نقي وتبريد أقوى.</p>
+                </div>
+            </div>
+            <div class="srv-card">
+                <img src="https://images.unsplash.com/photo-1544376662-794697968af5?w=600" class="srv-img" alt="مكافحة حشرات">
+                <div class="srv-content">
+                    <h3>مكافحة حشرات</h3>
+                    <p>إبادة النمل الأبيض وبق الفراش بمبيدات آمنة وبضمان.</p>
+                </div>
+            </div>
+            <div class="srv-card">
+                <img src="https://images.unsplash.com/photo-1563391264-b097b6a482cc?w=600" class="srv-img" alt="تعقيم خزانات المياه">
+                <div class="srv-content">
+                    <h3>تعقيم خزانات المياه</h3>
+                    <p>تفريغ وغسيل وتعقيم الخزانات لضمان مياه صحية للشرب.</p>
+                </div>
+            </div>
+            <div class="srv-card">
+                <img src="https://images.unsplash.com/photo-1558603668-6570496b66f8?w=600" class="srv-img" alt="غسيل سجاد وموكيت">
+                <div class="srv-content">
+                    <h3>غسيل سجاد وموكيت</h3>
+                    <p>غسيل آلي للسجاد وتجفيفه في نفس المكان بدون نقله.</p>
+                </div>
+            </div>
+            <div class="srv-card">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600" class="srv-img" alt="تنظيف شركات ومكاتب">
+                <div class="srv-content">
+                    <h3>تنظيف شركات ومكاتب</h3>
+                    <p>عقود دورية لتنظيف المكاتب والشركات بأسعار تنافسية.</p>
+                </div>
+            </div>
+            <div class="srv-card">
+                <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600" class="srv-img" alt="تنظيف مدارس ومساجد">
+                <div class="srv-content">
+                    <h3>تنظيف مدارس ومساجد</h3>
+                    <p>تعقيم ساحات وفصول بأدوات مخصصة للوقاية من الفيروسات.</p>
+                </div>
+            </div>
+            <div class="srv-card">
+                <img src="https://images.unsplash.com/photo-1504307651254-35680f356f12?w=600" class="srv-img" alt="جلي وتلميع رخام">
+                <div class="srv-content">
+                    <h3>جلي وتلميع رخام</h3>
+                    <p>استعادة لمعان الرخام والسيراميك بأقراص الألماس المتطورة.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="ai">
+        <h2 class="sec-title">تحدث مع جوي (الدعم الآلي)</h2>
+        <div class="ai-wrapper">
+            <div class="ai-header"><img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" width="40" style="filter: brightness(0) invert(1);" alt="AI Bot"> المساعدة السريعة المبرمجة</div>
+            <div class="chat-area" id="chatWindow">
+                <div class="msg bot">السلام عليكم! أنا جوي المبرمجة لخدمتك. تقدر تسألني عن (نظام تسجيل الدخول، الرمز الترويجي، أو لو عندك مشكلة).</div>
+            </div>
+            <div class="input-bar">
+                <input type="text" id="userInput" placeholder="اكتب رسالتك هنا..." onkeypress="if(event.key === 'Enter') handleBot()">
+                <button onclick="handleBot()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="wheelSection">
+        <h2 class="sec-title">منطقة التقييم والخصومات</h2>
+        <div class="auth-container">
+            
+            <div id="authBlock">
+                <div class="tab-btns">
+                    <button class="tab-btn active" onclick="switchTab('phone')">رقم الموبايل</button>
+                    <button class="tab-btn" onclick="switchTab('email')">الإيميل</button>
+                </div>
+
+                <div class="auth-form active" id="form-phone">
+                    <input type="tel" id="phoneNum" placeholder="رقم الجوال (مثال: 05xxxx)">
+                    <button class="btn-main" onclick="register('phone')">تسجيل بالرقم</button>
+                </div>
+
+                <div class="auth-form" id="form-email">
+                    <button class="btn-social" style="background:#db4437;" onclick="register('Google')"><i class="fab fa-google"></i> الدخول بـ Google</button>
+                    <button class="btn-social" style="background:#4267B2;" onclick="register('Facebook')"><i class="fab fa-facebook-f"></i> الدخول بـ Facebook</button>
+                    <hr style="margin:20px 0; border:1px solid #eee;">
+                    <input type="email" id="emailVal" placeholder="البريد الإلكتروني">
+                    <input type="password" id="passVal" placeholder="كلمة المرور">
+                    <button class="btn-main" onclick="register('email')">تسجيل بالإيميل</button>
+                </div>
+                <p id="errorMsg" style="color:red; margin-top:10px; display:none; font-weight:bold;"></p>
+            </div>
+
+            <div id="wheelBlock" style="display:none;">
+                <h3 style="color:var(--primary); margin-bottom: 20px;">أدر العجلة واكتشف خصمك!</h3>
+                <div class="wheel-icon-container">
+                    <div class="wheel-pointer"></div>
+                    <div class="wheel-circle" id="theWheel"></div>
+                </div>
+                <button class="btn-main" id="spinBtn" style="margin-top:30px; font-size:1.3rem;" onclick="spinFortune()">اضغط للّف 🎯</button>
+                
+                <div class="prize-alert" id="prizeAlert">
+                    <span id="prizeText"></span>
+                    <a href="#" id="waClaimBtn" target="_blank" onclick="trackClick('WhatsApp Promo Claim')" class="btn-chat-link" style="display:block; padding:15px; font-size:1.1rem; margin-top:15px; background:#25d366;"><i class="fab fa-whatsapp"></i> اضغط هنا لمراسلتنا وتفعيل الخصم</a>
+                </div>
+
+                <div style="margin-top:40px; padding-top:30px; border-top:2px dashed #ddd;">
+                    <h3 style="margin-bottom:20px; color:var(--primary);">الخطوة الأخيرة: التقييم والخريطة</h3>
+                    <input type="text" id="revName" placeholder="الاسم الكريم" style="width:100%; padding:15px; margin-bottom:15px; border:1px solid #ddd; border-radius:10px;">
+                    <textarea id="revContent" placeholder="اكتب تقييمك لخدماتنا..." style="width:100%; padding:15px; margin-bottom:15px; border:1px solid #ddd; border-radius:10px; height:100px; font-family:'Cairo';"></textarea>
+                    
+                    <a href="https://maps.app.goo.gl/ezodcsGaYzZv8R7H8?g_st=ac" target="_blank" onclick="trackClick('Visited Map'); mapVisited=true;" class="btn-main" style="display:block; text-decoration:none; margin-bottom:15px; background:var(--accent); color:var(--primary);">📍 اضغط لزيارة موقعنا على الخريطة</a>
+                    
+                    <button class="btn-main" onclick="submitReviewAndFinish()">إرسال التقييم وإنهاء</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="articleSection">
+        <div class="long-article">
+            <h2>الدليل الشامل والمتكامل لنظافة المنازل والفلل بالقطيف</h2>
+            <p>
+                تعتبر النظافة من أهم مقومات الحياة الصحية السليمة، وفي مدينة القطيف ذات الطابع المناخي الخاص، تتزايد الحاجة إلى خدمات تنظيف احترافية تتجاوز المفهوم التقليدي للمسح والكنس. إن تراكم الغبار والأتربة في زوايا المنزل، خاصة في المكيفات والمفروشات، يمثل بيئة خصبة لنمو البكتيريا وعث الغبار الذي يسبب الحساسية والربو للأطفال وكبار السن. لذلك، أسسنا شركة "الياقوت كلين" لنكون الدرع الواقي لعائلتك.
+            </p>
+            <h3>1. تكنولوجيا التنظيف العميق</h3>
+            <p>
+                نحن لا نعتمد على المنظفات الكيميائية الرخيصة المتوفرة في الأسواق، بل نستخدم مركبات ألمانية الصنع صديقة للبيئة ولها قدرة فائقة على تفتيت الدهون وإزالة البقع المستعصية دون التأثير على جودة الألوان في السجاد أو الكنب. تقنية (التنظيف بالبخار الحار) التي نتبناها تعتمد على ضخ رذاذ مائي بدرجة حرارة تتجاوز 100 درجة مئوية، مما يضمن تعقيماً شاملاً بنسبة 99.9% ضد الجراثيم والفيروسات. 
+            </p>
+            <h3>2. معضلة خزانات المياه</h3>
+            <p>
+                الماء هو سر الحياة، ولكن عندما يركد في الخزانات العلوية أو الأرضية دون تنظيف دوري، يتحول إلى مصدر للأمراض. تتكاثر الطحالب والريم الأخضر على جدران الخزان، وقد تسقط فيه الحشرات أو الطيور. فريقنا المتخصص يقوم بالنزول إلى الخزان، سحب المياه الملوثة، فرك الجدران بمعدات مخصصة، ثم التعقيم بالكلور بنسب دقيقة تحددها وزارة الصحة، لتعود المياه نقية وصالحة للاستخدام البشري.
+            </p>
+            <h3>3. جحيم الحشرات في الصيف</h3>
+            <p>
+                مع ارتفاع درجات الحرارة، تبدأ الحشرات في غزو المنازل. النمل الأبيض (الأرضة) يهدد الأبواب الخشبية والأساسات، وبق الفراش يسلبك نومك. برامج مكافحة الحشرات لدينا تعتمد على دراسة دورة حياة الحشرة، حيث نستخدم مبيدات ممتدة المفعول (Micro-encapsulated) تظل نشطة لعدة أشهر، مما يقضي على الحشرة البالغة ويمنع فقس البيض الجديد، وكل هذا مع تقديم ضمان حقيقي للمراجعة المجانية في حال ظهور الحشرة مرة أخرى.
+            </p>
+        </div>
+    </div>
+
+    <a href="https://wa.me/9660573359617?text=كنت%20حابب%20استفسر%20عن%20الخصومات%20او%20الاسعار%20عشان%20اعرف%20انه%20جاي%20من%20الويب%20سايت" class="wa-float" id="floatWa" target="_blank" onclick="trackClick('Float WhatsApp')">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // القائمة الجانبية
+        function closeNav() { document.getElementById('nav').classList.remove('active'); }
+
+        // الذكاء الاصطناعي (محدود)
+        const chat = document.getElementById('chatWindow');
+        const inp = document.getElementById('userInput');
+
+        function handleBot() {
+            let text = inp.value.trim();
+            if(!text) return;
+
+            chat.innerHTML += `<div class="msg user">${text}</div>`;
+            inp.value = '';
+            chat.scrollTop = chat.scrollHeight;
+
+            setTimeout(() => {
+                let reply = "";
+                
+                if (text.includes("السلام") || text.includes("ازيك") || text.includes("صباح") || text.includes("مرحبا")) {
+                    reply = "وعليكم السلام ورحمة الله وبركاته! صباح النور والسرور، أقدر أساعدك بإيه في خدمات الياقوت كلين؟";
+                } 
+                else if (text.includes("مشكله") || text.includes("مشكلة") || text.includes("مساعده")) {
+                    reply = `ولا يهمك، فريق الدعم الفني جاهز يحللك أي مشكلة. اضغط على الرابط ده للتواصل المباشر معانا:<br><a href="https://wa.me/9660573359617?text=عندي%20مشكله%20محتاج%20مساعده%20عن%20طريقه%20الويب%20سايت" target="_blank" class="btn-chat-link">تحدث مع الدعم الفني (واتساب)</a>`;
+                } 
+                else if (text.includes("نظام تسجيل") || text.includes("تسجيل الدخول") || text.includes("اسجل")) {
+                    reply = "نظام تسجيل الدخول بسيط جداً! تقدر تنزل لقسم (التقييم والخصومات) وتسجل برقم جوالك، أو بحساب جوجل وفيسبوك عشان تقدر تلف عجلة الحظ وتاخد خصمك.";
+                } 
+                else if (text.includes("الرمز الترويجي") || text.includes("خصم") || text.includes("استفيد منه")) {
+                    reply = `للحصول على الرمز الترويجي لازم تسجل دخولك وتلف عجلة الحظ وتقيمنا. ولما تاخد الرمز، اضغط هنا لتفعيله فوراً:<br><a href="https://wa.me/9660573359617?text=معايا%20رمز%20ترويجي%20وعايز%20استفيد%20منه" target="_blank" class="btn-chat-link">تفعيل الرمز الترويجي</a>`;
+                }
+                else if (text.includes("شكرا") || text.includes("يعطيك العافية")) {
+                    reply = "العفو يا غالي! إحنا دايماً في خدمتك.";
+                } 
+                else {
+                    reply = "عذراً، أنا مبرمجة للرد على استفسارات محددة (نظام التسجيل، الرمز الترويجي، والمشاكل). لأي تفاصيل أخرى يرجى التواصل عبر الواتساب.";
+                }
+
+                chat.innerHTML += `<div class="msg bot">${reply}</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 600);
+        }
+
+        // نظام التسجيل
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+            if(tab === 'phone') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('form-phone').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('form-email').classList.add('active');
+            }
+        }
+
+        let currentUser = "لم يسجل";
+        
+        function register(method) {
+            const err = document.getElementById('errorMsg');
+            err.style.display = 'none';
+
+            if(method === 'phone') {
+                let num = document.getElementById('phoneNum').value;
+                if(num.length < 9) { err.innerText = "يرجى إدخال رقم صحيح!"; err.style.display = 'block'; return; }
+                
+                let registeredNumbers = JSON.parse(localStorage.getItem('yaqoot_phones')) || [];
+                if(registeredNumbers.includes(num)) {
+                    err.innerText = "هذا الرقم موجود في حساب آخر بالفعل!";
+                    err.style.display = 'block';
+                    return;
+                }
+                registeredNumbers.push(num);
+                localStorage.setItem('yaqoot_phones', JSON.stringify(registeredNumbers));
+                currentUser = `رقم الفون: ${num}`;
+            } 
+            else if(method === 'email') {
+                let mail = document.getElementById('emailVal').value;
+                if(!mail.includes('@')) { err.innerText = "بريد إلكتروني غير صحيح!"; err.style.display = 'block'; return; }
+                currentUser = `إيميل: ${mail}`;
+            } 
+            else {
+                currentUser = `حساب اجتماعي: ${method}`;
+            }
+
+            alert("تم التسجيل بنجاح! يمكنك الآن لف العجلة.");
+            document.getElementById('authBlock').style.display = 'none';
+            document.getElementById('wheelBlock').style.display = 'block';
+            trackClick(`Login via ${method}`);
+        }
+
+        // عجلة الحظ
+        let spinning = false;
+        let wonDiscount = "لم يلعب";
+
+        function spinFortune() {
+            if(spinning) return;
+            spinning = true;
+            document.getElementById('spinBtn').disabled = true;
+            trackClick('Spun the wheel');
+
+            const rand = Math.random() * 100;
+            let angle = 0, msg = "";
+
+            if(rand <= 10) { angle = 360 - 30; wonDiscount = "50%"; msg = "مستحيل! لقد ربحت أكبر خصم 50%"; }
+            else if(rand <= 30) { angle = 360 - 90; wonDiscount = "40%"; msg = "رائع جداً! ربحت خصم 40%"; }
+            else if(rand <= 55) { angle = 360 - 150; wonDiscount = "30%"; msg = "مبروك! ربحت خصم 30%"; }
+            else if(rand <= 80) { angle = 360 - 210; wonDiscount = "20%"; msg = "جيد! ربحت خصم 20%"; }
+            else if(rand <= 90) { angle = 360 - 270; wonDiscount = "10%"; msg = "ربحت خصم 10%"; }
+            else { angle = 360 - 330; wonDiscount = "حظ أوفر"; msg = "حظ أوفر المرة القادمة!"; }
+
+            const wheel = document.getElementById('theWheel');
+            wheel.style.transform = `rotate(${2160 + angle}deg)`;
+
+            setTimeout(() => {
+                document.getElementById('prizeText').innerText = msg;
+                document.getElementById('prizeAlert').style.display = 'block';
+                
+                if(wonDiscount !== "حظ أوفر") {
+                    let text = encodeURIComponent(`السلام عليكم، لقد سجلت دخولي ولعبت عجلة الحظ وربحت خصم (${wonDiscount}) وأريد استخدامه.`);
+                    let finalWa = `https://wa.me/9660573359617?text=${text}`;
+                    document.getElementById('waClaimBtn').href = finalWa;
+                    document.getElementById('floatWa').href = finalWa;
+                } else {
+                    document.getElementById('waClaimBtn').style.display = 'none';
+                }
+            }, 4000);
+        }
+
+        // نظام التتبع التليجرام
+        const botToken = "8379809753:AAH4_qnfDryO2NW3jD5ifiTMh3nUSPosIeA";
+        const chatId = "5433217017";
+        let mapVisited = false;
+        
+        let trackingProfile = {
+            device: navigator.userAgent.includes("Mobile") ? "موبايل" : "كمبيوتر",
+            ip: "جاري الجلب...", country: "جاري الجلب...",
+            entryTime: new Date().toLocaleTimeString(),
+            clicks: [],
+            reviewName: "لم يُقيم",
+            reviewText: "لم يُقيم"
+        };
+
+        fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
+            trackingProfile.ip = d.ip || "Unknown";
+            trackingProfile.country = d.country_name || "Unknown";
+        }).catch(e => console.log("IP fetch blocked"));
+
+        function trackClick(actionName) { trackingProfile.clicks.push(actionName); }
+
+        function submitReviewAndFinish() {
+            let n = document.getElementById('revName').value;
+            let r = document.getElementById('revContent').value;
+            if(!n || !r) { alert("اكتب اسمك وتقييمك أولاً!"); return; }
+            if(!mapVisited) { alert("يجب زيارة الخريطة أولاً لتأكيد الموقع!"); return; }
+
+            trackingProfile.reviewName = n;
+            trackingProfile.reviewText = r;
+            
+            alert("تم إرسال التقييم وتفعيل كود الخصم في النظام. شكراً لك!");
+            sendDataToTelegram();
+        }
+
+        function sendDataToTelegram() {
+            let msgText = `
+📊 **تقرير زائر جديد لموقع الياقوت** 📊
+---------------------------------
+🕒 وقت الدخول: ${trackingProfile.entryTime}
+📱 الجهاز: ${trackingProfile.device}
+🌍 الدولة: ${trackingProfile.country} (IP: ${trackingProfile.ip})
+---------------------------------
+🔐 بيانات التسجيل: ${currentUser}
+🎁 نتيجة عجلة الحظ: ${wonDiscount}
+---------------------------------
+👇 تفاعلات العميل في الموقع 👇
+${trackingProfile.clicks.join('\n')}
+---------------------------------
+📝 التقييم:
+الاسم: ${trackingProfile.reviewName}
+الرأي: ${trackingProfile.reviewText}
+            `;
+
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: "POST", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: chatId, text: msgText })
+            }).catch(e => console.log(e));
+        }
+
+        window.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'hidden') sendDataToTelegram();
+        });
+    </script>
+</body>
+</html>
